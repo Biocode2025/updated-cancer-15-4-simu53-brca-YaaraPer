@@ -142,11 +142,25 @@ codon_file = open('data/codon_AA (1).txt', 'r')
 # קריאה לפונקציה
 Read_dict(codon_file)
 
-# קריאת הקובץ
-
 BRCA_gene = input("Whether the woman has a familial genetic background and whether she carries a single mutation in BRCA1 or BRCA2, or not: ")
 # נהפוך את הקלט לאותיות קטנות כדי להקל על בדיקתו
 BRCA_gene = BRCA_gene.lower()
+
+
+# קריאת הקובץ
+for line in p53_seq:
+  line = line.rstrip('\r\n')
+  if line == "":
+    continue
+  # רצף ה DNA מופיע בשורות שאינן מתחילות בסימן "<" לכן "נדלג" על שורה זו
+  if line[0] == ">":
+    continue
+ 
+  p53_genome = p53_genome + line
+
+# קריאה לפונקציות- שעתוק ותרגום הרצף.
+old_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
+
 
 
 
