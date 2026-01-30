@@ -43,7 +43,6 @@ def Delete_DNA(seq):
   return change_genome
 #------------------------------------------------
 
-
 def Mutate_DNA(seq):
   '''
   הפונקציה בוחרת מיקום אקראי ברצף הגנום ומחליפה במיקום זה את הנוקלאוטיד באופן רנדומלי ל- A/C/G/T.
@@ -63,6 +62,25 @@ def Mutate_DNA(seq):
     rand_nucleotide = random.choice(nucleotide_list)
     change_genome = seq[0:rand_num]+ rand_nucleotide + seq[(rand_num+1):]
   return change_genome
+#------------------------------------------------
+
+def DNA_RNA_Cod(seq):
+  '''
+  הפונקציה דואגת שהאותיות תהיינה אחידות (אותיות גדולות) והופכת את רצף ה- DNA המקודד לרצף RNA.
+  מקבלת: seq.
+  מחזירה: RNA_seq.
+  '''
+  RNA_seq=""
+
+  for line in seq:
+    line = line.upper()
+    line = line.rstrip('\r\n')
+   
+    if line[0] != ">":
+      rna_line = line.replace("T","U")
+      RNA_seq += rna_line
+   
+  return RNA_seq
 #------------------------------------------------
 
 
