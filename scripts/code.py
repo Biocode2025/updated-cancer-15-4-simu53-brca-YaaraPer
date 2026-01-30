@@ -131,11 +131,19 @@ def RNA_prot(seq):
   return protein_seq
 #------------------------------------------------
 
-
-
-
-
 #תוכנית ראשית
+global RNA_codon_table
+RNA_codon_table = {}
+
+# פתיחת הקבצים
+p53_seq = open('data/human_p53_coding (1).txt', 'r')
+codon_file = open('data/codon_AA (1).txt', 'r')
+
+# קריאה לפונקציה
+Read_dict(codon_file)
+
+# קריאת הקובץ
+
 BRCA_gene = input("Whether the woman has a familial genetic background and whether she carries a single mutation in BRCA1 or BRCA2, or not: ")
 # נהפוך את הקלט לאותיות קטנות כדי להקל על בדיקתו
 BRCA_gene = BRCA_gene.lower()
