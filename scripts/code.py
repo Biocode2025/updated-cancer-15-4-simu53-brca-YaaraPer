@@ -136,7 +136,7 @@ global RNA_codon_table
 RNA_codon_table = {}
 
 # פתיחת הקבצים
-p53_seq = open('data/human_p53_coding (1).txt', 'r')
+p53_seq = open('data/human_p53_coding (2).txt', 'r')
 codon_file = open('data/codon_AA (1).txt', 'r')
 
 # קריאה לפונקציה
