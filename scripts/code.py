@@ -151,10 +151,10 @@ num_gen = 1000
 p53_genome = ""
 num_iteration = 0
 num_mutate = 0
+avg = 0.0
+total = 0
 # הגדרת רשימה
 iteration_list = []
-
-
 
 
 # קריאת הקובץ
@@ -170,7 +170,6 @@ for line in p53_seq:
 
 # קריאה לפונקציות- שעתוק ותרגום הרצף.
 old_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
-
 
 
 # 
@@ -267,13 +266,15 @@ elif BRCA_gene == "no":
 
         if num_mutate == 2:
            break
-        
+
         old_protein = new_protein
         # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
         iteration_list.append(num_iteration)
         num_iteration = 0
         
-
-
+# חישוב מספר אירועי שיכפול ה DNA בממוצע עד להתרחשות מוטציה יחידה בחלבון
+total = sum(iteration_list)
+avg = total / num_gen
+print(avg)
 
 
