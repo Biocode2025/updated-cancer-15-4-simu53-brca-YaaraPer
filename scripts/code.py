@@ -146,6 +146,15 @@ BRCA_gene = input("Whether the woman has a familial genetic background and wheth
 # נהפוך את הקלט לאותיות קטנות כדי להקל על בדיקתו
 BRCA_gene = BRCA_gene.lower()
 
+# הגדרת משתנים
+num_gen = 1000
+p53_genome = ""
+num_iteration = 0
+# הגדרת רשימה
+iteration_list = []
+
+
+
 
 # קריאת הקובץ
 for line in p53_seq:
@@ -163,6 +172,5 @@ old_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
 
 
 
-
-
-
+# 
+if BRCA_gene == "yes":
