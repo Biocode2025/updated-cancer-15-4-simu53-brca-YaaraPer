@@ -59,9 +59,9 @@ def Mutate_DNA(seq):
   if len(seq) == 0:
     return seq
 
-  rand_nucleotide = random.choice(nucleotide_list)
   rand_num = random.randrange(0,len(seq))
- 
+  rand_nucleotide = random.choice(nucleotide_list)
+
   if seq[rand_num] != rand_nucleotide:
     change_genome = seq[0:rand_num]+ rand_nucleotide + seq[(rand_num+1):]
  
@@ -175,8 +175,6 @@ for line in p53_seq:
 # קריאה לפונקציות- שעתוק ותרגום הרצף.
 old_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
 
-z = ['5','3']
-print(int(z[0] + z[1]))
 
 # 
 if BRCA_gene == "Y":
@@ -185,42 +183,36 @@ if BRCA_gene == "Y":
         is_changed = True
         while (is_changed):
             num_iteration = num_iteration + 1
-            num = random.randint(1,100)
-
-            # מוטציה של החלפת בסיס
-            if num <= 98:
+            Mutate_rnd_num = random.randint(1,100)
+            frequency_rnd_num = random.randint(1,10000)
+            
+            # התדירות האפקטיבית להתרחשות מוטציה היא  1 ל 10000 אירועי תרגום לכן אם נקבל בהגרלה מספר אחד מבין 10000 מספרים תתרחש מוטציה כלשהי
+            if frequency_rnd_num == 1:
+              # מוטציה של החלפת בסיס
+              if Mutate_rnd_num <= 98:
                 p53_genome = Mutate_DNA(p53_genome)  
 
-            # מוטציה של הוספת בסיס עד שלושה בסיסים
-            elif num == 99:
+              # מוטציה של הוספת בסיס עד שלושה בסיסים
+              elif Mutate_rnd_num == 99:
                 num_bases = random.randrange(1,4)
-                if num_bases == 1:
-                    p53_genome = Insert_DNA(p53_genome)
-                elif num_bases == 2:
-                    for i in range(num_bases):
-                        p53_genome = Insert_DNA(p53_genome)
-                else:
-                    for i in range(num_bases):
-                        p53_genome = Insert_DNA(p53_genome)
-        
-            # מוטציה של הוספת בסיס עד שלושה בסיסים
-            else:
+                for i in range(num_bases):
+                  p53_genome = Insert_DNA(p53_genome)
+              
+              # מוטציה של הוספת בסיס עד שלושה בסיסים
+              else:
                 num_bases = random.randrange(1,4)
-            if num_bases == 1:
-                p53_genome = Delete_DNA(p53_genome)
-            elif num_bases == 2:
                 for i in range(num_bases):
-                    p53_genome = Delete_DNA(p53_genome)
-            else:
-                for i in range(num_bases):
-                    p53_genome = Delete_DNA(p53_genome)
-        
+                  p53_genome = Delete_DNA(p53_genome)
+            
             # קריאה לפונקציות- שעתוק ותרגום הרצף.
             new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
-        
-            if Comp_seq(old_protein, new_protein) > 0:
-                is_changed = False
-            
+
+            num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
+            if num_mutate > 0:
+              is_changed = False
+              num_mutate = 0
+              
+        # קריאה לפונקציות- שעתוק ותרגום הרצף.      
         old_protein = new_protein
         # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
         iteration_list.append(num_iteration)
@@ -234,21 +226,23 @@ elif BRCA_gene == "N":
 
         while (is_changed):
             num_iteration = num_iteration + 1
-            num = random.randint(1,100)
-
-            # מוטציה של החלפת בסיס
-            if num <= 98:
+            Mutate_rnd_num = random.randint(1,100)
+            frequency_rnd_num = random.randint(1,10000)
+            
+            # התדירות האפקטיבית להתרחשות מוטציה היא  1 ל 10000 אירועי תרגום לכן אם נקבל בהגרלה מספר אחד מבין 10000 מספרים תתרחש מוטציה כלשהי
+            if frequency_rnd_num == 1:
+              # מוטציה של החלפת בסיס
+              if Mutate_rnd_num <= 98:
                 p53_genome = Mutate_DNA(p53_genome)  
-                print("98")
 
-            # מוטציה של הוספת בסיס עד שלושה בסיסים
-            elif num == 99:
+              # מוטציה של הוספת בסיס עד שלושה בסיסים
+              elif Mutate_rnd_num == 99:
                 num_bases = random.randrange(1,4)
                 for i in range(num_bases):
                   p53_genome = Insert_DNA(p53_genome)
               
-            # מוטציה של החסרת בסיס עד שלושה בסיסים
-            else:
+              # מוטציה של החסרת בסיס עד שלושה בסיסים
+              else:
                 num_bases = random.randrange(1,4)
                 for i in range(num_bases):
                   p53_genome = Delete_DNA(p53_genome)
@@ -258,12 +252,9 @@ elif BRCA_gene == "N":
 
             num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
             if num_mutate >= 2:
-                is_changed = False
-                print ("number of differences", num_mutate)
-                print ("num iteration", num_iteration)
-                print("")
-                print ("there is a diffrece")
-
+              is_changed = False
+              num_mutate = 0
+              
         old_protein = new_protein
         # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
         iteration_list.append(num_iteration)
