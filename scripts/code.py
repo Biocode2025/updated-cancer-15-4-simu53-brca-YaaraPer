@@ -142,14 +142,11 @@ codon_file = open('data/codon_AA (1).txt', 'r')
 # קריאה לפונקציה
 Read_dict(codon_file)
 
-#BRCA_gene = input("Does the Female has a BRCA1,2 mutation? (Y=Yes, N=No): ")
-# נהפוך את הקלט לאותיות קטנות כדי להקל על בדיקתו
-#BRCA_gene = BRCA_gene.lower()
-
-BRCA_gene = "N"
+# קלט
+BRCA_gene = input("Does the Female has a BRCA1,2 mutation? (Y=Yes, N=No): ")
 
 # הגדרת משתנים
-num_gen = 10
+num_gen = 1000
 p53_genome = ""
 num_iteration = 0
 num_mutate = 0
@@ -176,11 +173,13 @@ for line in p53_seq:
 old_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
 
 
-# 
+# אם האישה בעלת מוטציה ב- BRCA1,2 מספיקה מוטציה אחת בחלבון.
 if BRCA_gene == "Y":
-  #
+  # לולאה חיצונית- עובדת לפי מספר הדורות
     for h in range(num_gen):
         is_changed = True
+
+        # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
         while (is_changed):
             num_iteration = num_iteration + 1
             Mutate_rnd_num = random.randint(1,100)
@@ -208,22 +207,24 @@ if BRCA_gene == "Y":
             new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
 
             num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
-            if num_mutate > 0:
+            # היות ומספיקה מוטציה אחת לעצירת הדור
+            if num_mutate >= 1:
               is_changed = False
               num_mutate = 0
-              
+
         # קריאה לפונקציות- שעתוק ותרגום הרצף.      
         old_protein = new_protein
         # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
         iteration_list.append(num_iteration)
         num_iteration = 0
 
-#
+# אם האישה שאינה בעלת מוטציה ב- BRCA1,2 צריכות לקרות שתי מוטציות בחלבון.
 elif BRCA_gene == "N":
-   #
+   # לולאה חיצונית- עובדת לפי מספר הדורות
     for h in range(num_gen):
         is_changed = True
 
+        # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
         while (is_changed):
             num_iteration = num_iteration + 1
             Mutate_rnd_num = random.randint(1,100)
@@ -251,6 +252,7 @@ elif BRCA_gene == "N":
             new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
 
             num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
+            # היות ומספיקות שתי מוטציות לעצירת הדור.
             if num_mutate >= 2:
               is_changed = False
               num_mutate = 0
