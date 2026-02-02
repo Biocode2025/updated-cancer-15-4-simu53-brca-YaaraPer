@@ -21,7 +21,10 @@ def Insert_DNA(seq):
   מחזירה: change_genome.
   '''
   nucleotide_list = ['T','G','C','A']
- 
+  
+  if len(seq) == 0:
+     return seq
+
   rand_nucleotide = random.choice(nucleotide_list)
   rand_num = random.randrange(0,len(seq))
  
@@ -36,6 +39,9 @@ def Delete_DNA(seq):
   מקבלת: seq.
   מחזירה: change_genome.
   '''
+  if len(seq) == 0:
+    return seq
+
   rand_num = random.randrange(0,len(seq))
   rand_nucleotide = seq[rand_num]
  
@@ -50,7 +56,9 @@ def Mutate_DNA(seq):
   מחזירה:change_genome
   '''
   nucleotide_list = ['T','G','C','A']
- 
+  if len(seq) == 0:
+    return seq
+
   rand_nucleotide = random.choice(nucleotide_list)
   rand_num = random.randrange(0,len(seq))
  
@@ -70,17 +78,9 @@ def DNA_RNA_Cod(seq):
   מקבלת: seq.
   מחזירה: RNA_seq.
   '''
-  RNA_seq=""
+  seq = seq.upper()
 
-  for line in seq:
-    line = line.upper()
-    line = line.rstrip('\r\n')
-   
-    if line[0] != ">":
-      rna_line = line.replace("T","U")
-      RNA_seq += rna_line
-   
-  return RNA_seq
+  return seq.replace("T","U")
 #------------------------------------------------
  
 def Read_dict(fl):
@@ -142,17 +142,21 @@ codon_file = open('data/codon_AA (1).txt', 'r')
 # קריאה לפונקציה
 Read_dict(codon_file)
 
-BRCA_gene = input("Whether the woman has a familial genetic background and whether she carries a single mutation in BRCA1 or BRCA2, or not: ")
+#BRCA_gene = input("Does the Female has a BRCA1,2 mutation? (Y=Yes, N=No): ")
 # נהפוך את הקלט לאותיות קטנות כדי להקל על בדיקתו
-BRCA_gene = BRCA_gene.lower()
+#BRCA_gene = BRCA_gene.lower()
+
+BRCA_gene = "N"
 
 # הגדרת משתנים
-num_gen = 1000
+num_gen = 10
 p53_genome = ""
 num_iteration = 0
 num_mutate = 0
 avg = 0.0
 total = 0
+num_bases = -1
+
 # הגדרת רשימה
 iteration_list = []
 
@@ -171,9 +175,11 @@ for line in p53_seq:
 # קריאה לפונקציות- שעתוק ותרגום הרצף.
 old_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
 
+z = ['5','3']
+print(int(z[0] + z[1]))
 
 # 
-if BRCA_gene == "yes":
+if BRCA_gene == "Y":
   #
     for h in range(num_gen):
         is_changed = True
@@ -221,10 +227,11 @@ if BRCA_gene == "yes":
         num_iteration = 0
 
 #
-elif BRCA_gene == "no":
+elif BRCA_gene == "N":
    #
     for h in range(num_gen):
         is_changed = True
+
         while (is_changed):
             num_iteration = num_iteration + 1
             num = random.randint(1,100)
@@ -232,49 +239,40 @@ elif BRCA_gene == "no":
             # מוטציה של החלפת בסיס
             if num <= 98:
                 p53_genome = Mutate_DNA(p53_genome)  
+                print("98")
 
             # מוטציה של הוספת בסיס עד שלושה בסיסים
             elif num == 99:
                 num_bases = random.randrange(1,4)
-                if num_bases == 1:
-                    p53_genome = Insert_DNA(p53_genome)
-                elif num_bases == 2:
-                    for i in range(num_bases):
-                        p53_genome = Insert_DNA(p53_genome)
-                else:
-                    for i in range(num_bases):
-                        p53_genome = Insert_DNA(p53_genome)
-        
-            # מוטציה של הוספת בסיס עד שלושה בסיסים
+                for i in range(num_bases):
+                  p53_genome = Insert_DNA(p53_genome)
+              
+            # מוטציה של החסרת בסיס עד שלושה בסיסים
             else:
                 num_bases = random.randrange(1,4)
-            if num_bases == 1:
-                p53_genome = Delete_DNA(p53_genome)
-            elif num_bases == 2:
                 for i in range(num_bases):
-                    p53_genome = Delete_DNA(p53_genome)
-            else:
-                for i in range(num_bases):
-                    p53_genome = Delete_DNA(p53_genome)
-        
+                  p53_genome = Delete_DNA(p53_genome)
+                
             # קריאה לפונקציות- שעתוק ותרגום הרצף.
             new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
-        
-            if Comp_seq(old_protein, new_protein) > 0:
-                is_changed = False
-                num_mutate = num_mutate + 1
 
-        if num_mutate == 2:
-           break
+            num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
+            if num_mutate >= 2:
+                is_changed = False
+                print ("number of differences", num_mutate)
+                print ("num iteration", num_iteration)
+                print("")
+                print ("there is a diffrece")
 
         old_protein = new_protein
         # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
         iteration_list.append(num_iteration)
         num_iteration = 0
         
+print (iteration_list)
 # חישוב מספר אירועי שיכפול ה DNA בממוצע עד להתרחשות מוטציה יחידה בחלבון
 total = sum(iteration_list)
 avg = total / num_gen
-print(avg)
+print("avg", avg)
 
-
+print("-------------------------------")
