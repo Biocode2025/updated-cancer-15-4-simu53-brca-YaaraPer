@@ -11,6 +11,8 @@ def Comp_seq(old,new):
   for i in range(min(len(old), len(new))):
     if old[i] != new[i]:
       num_differences = num_differences + 1
+
+  num_differences = num_differences + abs(len(old) - len(new))
   return num_differences  
 #------------------------------------------------
 
@@ -151,7 +153,7 @@ Read_dict(codon_file)
 BRCA_gene = input("Does the Female has a BRCA1,2 mutation? (Y=Yes, N=No): ")
 
 # הגדרת משתנים
-num_gen = 100
+num_gen = 1000
 p53_genome = ""
 num_iteration = 0
 num_mutate = 0
@@ -181,7 +183,7 @@ if BRCA_gene == "Y":
   # לולאה חיצונית- עובדת לפי מספר הדורות
   for h in range(num_gen):
     is_changed = True
-
+    print("h= ",h )
     # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
     while (is_changed):
         num_iteration = num_iteration + 1
@@ -274,7 +276,6 @@ elif BRCA_gene == "N":
     iteration_list.append(num_iteration)
     num_iteration = 0
 
-  print (iteration_list)
   # חישוב מספר אירועי שיכפול ה DNA בממוצע עד להתרחשות מוטציה יחידה בחלבון
   total = sum(iteration_list)
   avg = total / num_gen
