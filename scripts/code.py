@@ -146,7 +146,7 @@ Read_dict(codon_file)
 BRCA_gene = input("Does the Female has a BRCA1,2 mutation? (Y=Yes, N=No): ")
 
 # הגדרת משתנים
-num_gen = 1000
+num_gen = 10
 p53_genome = ""
 num_iteration = 0
 num_mutate = 0
@@ -176,96 +176,96 @@ old_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
 # אם האישה בעלת מוטציה ב- BRCA1,2 מספיקה מוטציה אחת בחלבון.
 if BRCA_gene == "Y":
   # לולאה חיצונית- עובדת לפי מספר הדורות
-    for h in range(num_gen):
-        is_changed = True
+  for h in range(num_gen):
+    is_changed = True
 
-        # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
-        while (is_changed):
-            num_iteration = num_iteration + 1
-            Mutate_rnd_num = random.randint(1,100)
-            frequency_rnd_num = random.randint(1,10000)
-            
-            # התדירות האפקטיבית להתרחשות מוטציה היא  1 ל 10000 אירועי תרגום לכן אם נקבל בהגרלה מספר אחד מבין 10000 מספרים תתרחש מוטציה כלשהי
-            if frequency_rnd_num == 1:
-              # מוטציה של החלפת בסיס
-              if Mutate_rnd_num <= 98:
-                p53_genome = Mutate_DNA(p53_genome)  
+    # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
+    while (is_changed):
+        num_iteration = num_iteration + 1
+        Mutate_rnd_num = random.randint(1,100)
+        frequency_rnd_num = random.randint(1,10000)
+        
+        # התדירות האפקטיבית להתרחשות מוטציה היא  1 ל 10000 אירועי תרגום לכן אם נקבל בהגרלה מספר אחד מבין 10000 מספרים תתרחש מוטציה כלשהי
+        if frequency_rnd_num == 1:
+          # מוטציה של החלפת בסיס
+          if Mutate_rnd_num <= 98:
+            p53_genome = Mutate_DNA(p53_genome)  
 
-              # מוטציה של הוספת בסיס עד שלושה בסיסים
-              elif Mutate_rnd_num == 99:
-                num_bases = random.randrange(1,4)
-                for i in range(num_bases):
-                  p53_genome = Insert_DNA(p53_genome)
-              
-              # מוטציה של הוספת בסיס עד שלושה בסיסים
-              else:
-                num_bases = random.randrange(1,4)
-                for i in range(num_bases):
-                  p53_genome = Delete_DNA(p53_genome)
-            
+          # מוטציה של הוספת בסיס עד שלושה בסיסים
+          elif Mutate_rnd_num == 99:
+            num_bases = random.randrange(1,4)
+            for i in range(num_bases):
+              p53_genome = Insert_DNA(p53_genome)
+          
+          # מוטציה של הוספת בסיס עד שלושה בסיסים
+          else:
+            num_bases = random.randrange(1,4)
+            for i in range(num_bases):
+              p53_genome = Delete_DNA(p53_genome)
+        
             # קריאה לפונקציות- שעתוק ותרגום הרצף.
-            new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
+          new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
 
-            num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
-            # היות ומספיקה מוטציה אחת לעצירת הדור
-            if num_mutate >= 1:
-              is_changed = False
-              num_mutate = 0
+          num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
+          # היות ומספיקה מוטציה אחת לעצירת הדור
+          if num_mutate >= 1:
+            is_changed = False
+            num_mutate = 0
 
-        # קריאה לפונקציות- שעתוק ותרגום הרצף.      
-        old_protein = new_protein
-        # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
-        iteration_list.append(num_iteration)
-        num_iteration = 0
+    # קריאה לפונקציות- שעתוק ותרגום הרצף.      
+    old_protein = new_protein
+    # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
+    iteration_list.append(num_iteration)
+    num_iteration = 0
 
 # אם האישה שאינה בעלת מוטציה ב- BRCA1,2 צריכות לקרות שתי מוטציות בחלבון.
 elif BRCA_gene == "N":
-   # לולאה חיצונית- עובדת לפי מספר הדורות
-    for h in range(num_gen):
-        is_changed = True
-
-        # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
-        while (is_changed):
-            num_iteration = num_iteration + 1
-            Mutate_rnd_num = random.randint(1,100)
-            frequency_rnd_num = random.randint(1,10000)
-            
-            # התדירות האפקטיבית להתרחשות מוטציה היא  1 ל 10000 אירועי תרגום לכן אם נקבל בהגרלה מספר אחד מבין 10000 מספרים תתרחש מוטציה כלשהי
-            if frequency_rnd_num == 1:
-              # מוטציה של החלפת בסיס
-              if Mutate_rnd_num <= 98:
-                p53_genome = Mutate_DNA(p53_genome)  
-
-              # מוטציה של הוספת בסיס עד שלושה בסיסים
-              elif Mutate_rnd_num == 99:
-                num_bases = random.randrange(1,4)
-                for i in range(num_bases):
-                  p53_genome = Insert_DNA(p53_genome)
-              
-              # מוטציה של החסרת בסיס עד שלושה בסיסים
-              else:
-                num_bases = random.randrange(1,4)
-                for i in range(num_bases):
-                  p53_genome = Delete_DNA(p53_genome)
-                
-            # קריאה לפונקציות- שעתוק ותרגום הרצף.
-            new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
-
-            num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
-            # היות ומספיקות שתי מוטציות לעצירת הדור.
-            if num_mutate >= 2:
-              is_changed = False
-              num_mutate = 0
-              
-        old_protein = new_protein
-        # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
-        iteration_list.append(num_iteration)
-        num_iteration = 0
+  # לולאה חיצונית- עובדת לפי מספר הדורות
+  for h in range(num_gen):
+    is_changed = True
+    print(h)
+    # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
+    while (is_changed):
         
+        num_iteration = num_iteration + 1
+        Mutate_rnd_num = random.randint(1,100)
+        frequency_rnd_num = random.randint(1,10000)
+        
+        # התדירות האפקטיבית להתרחשות מוטציה היא  1 ל 10000 אירועי תרגום לכן אם נקבל בהגרלה מספר אחד מבין 10000 מספרים תתרחש מוטציה כלשהי
+        if frequency_rnd_num == 1:
+          # מוטציה של החלפת בסיס
+          if Mutate_rnd_num <= 98:
+            p53_genome = Mutate_DNA(p53_genome)  
+
+          # מוטציה של הוספת בסיס עד שלושה בסיסים
+          elif Mutate_rnd_num == 99:
+            num_bases = random.randrange(1,4)
+            for i in range(num_bases):
+              p53_genome = Insert_DNA(p53_genome)
+          
+          # מוטציה של החסרת בסיס עד שלושה בסיסים
+          else:
+            num_bases = random.randrange(1,4)
+            for i in range(num_bases):
+              p53_genome = Delete_DNA(p53_genome)
+            
+        # קריאה לפונקציות- שעתוק ותרגום הרצף.
+        new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
+
+        num_mutate = num_mutate + Comp_seq(old_protein, new_protein)
+        # היות ומספיקות שתי מוטציות לעצירת הדור.
+        if num_mutate >= 2:
+          is_changed = False
+          num_mutate = 0
+          
+    old_protein = new_protein
+    # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
+    iteration_list.append(num_iteration)
+    num_iteration = 0
+    
 print (iteration_list)
 # חישוב מספר אירועי שיכפול ה DNA בממוצע עד להתרחשות מוטציה יחידה בחלבון
 total = sum(iteration_list)
 avg = total / num_gen
 print("avg", avg)
 
-print("-------------------------------")
