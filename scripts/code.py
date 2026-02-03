@@ -151,7 +151,7 @@ Read_dict(codon_file)
 BRCA_gene = input("Does the Female has a BRCA1,2 mutation? (Y=Yes, N=No): ")
 
 # הגדרת משתנים
-num_gen = 1000
+num_gen = 100
 p53_genome = ""
 num_iteration = 0
 num_mutate = 0
