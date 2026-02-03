@@ -21,6 +21,7 @@ def Insert_DNA(seq, num):
   מחזירה: change_genome.
   '''
   nucleotide_list = ['T','G','C','A']
+  change_genome = ""
 
   if num != 0 and num != 1:
     for i in range(num):
@@ -150,7 +151,7 @@ Read_dict(codon_file)
 BRCA_gene = input("Does the Female has a BRCA1,2 mutation? (Y=Yes, N=No): ")
 
 # הגדרת משתנים
-num_gen = 10
+num_gen = 1000
 p53_genome = ""
 num_iteration = 0
 num_mutate = 0
@@ -160,7 +161,6 @@ num_bases = -1
 
 # הגדרת רשימה
 iteration_list = []
-
 
 # קריאת הקובץ
 for line in p53_seq:
@@ -175,7 +175,6 @@ for line in p53_seq:
 
 # קריאה לפונקציות- שעתוק ותרגום הרצף.
 old_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
-
 
 # אם האישה בעלת מוטציה ב- BRCA1,2 מספיקה מוטציה אחת בחלבון.
 if BRCA_gene == "Y":
@@ -220,13 +219,22 @@ if BRCA_gene == "Y":
     # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
     iteration_list.append(num_iteration)
     num_iteration = 0
+  
+  print (iteration_list)
+  # חישוב מספר אירועי שיכפול ה DNA בממוצע עד להתרחשות מוטציה יחידה בחלבון
+  total = sum(iteration_list)
+  avg = total / num_gen
+
+  # פלט
+  print("For a female that does not have BRCA1,2 Mutation:")
+  print("The mutation that will change the P53 protein will take in average d% years." % avg)
 
 # אם האישה שאינה בעלת מוטציה ב- BRCA1,2 צריכות לקרות שתי מוטציות בחלבון.
 elif BRCA_gene == "N":
   # לולאה חיצונית- עובדת לפי מספר הדורות
   for h in range(num_gen):
     is_changed = True
-    print(h)
+    
     # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
     while (is_changed):
         
@@ -264,10 +272,14 @@ elif BRCA_gene == "N":
     # סכימת מספר האיטרציות שלקח ללולאה הפנימית לעשות עד שנוצרה מוטציה (לא שקטה).
     iteration_list.append(num_iteration)
     num_iteration = 0
-    
-print (iteration_list)
-# חישוב מספר אירועי שיכפול ה DNA בממוצע עד להתרחשות מוטציה יחידה בחלבון
-total = sum(iteration_list)
-avg = total / num_gen
-print("avg", avg)
+
+  print (iteration_list)
+  # חישוב מספר אירועי שיכפול ה DNA בממוצע עד להתרחשות מוטציה יחידה בחלבון
+  total = sum(iteration_list)
+  avg = total / num_gen
+
+  # פלט
+  print("For a female that doesn't not have BRCA1,2 Mutation:")
+  print("The mutation that will change the P53 protein will take in average d% years." % avg)
+
 
