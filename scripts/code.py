@@ -186,6 +186,7 @@ if BRCA_gene == "Y":
     # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
     while (is_changed):
         num_iteration = num_iteration + 1
+        # הגרלת מספרים
         Mutate_rnd_num = random.randint(1,100)
         frequency_rnd_num = random.randint(1,10000)
         
@@ -198,14 +199,12 @@ if BRCA_gene == "Y":
           # מוטציה של הוספת בסיס עד שלושה בסיסים
           elif Mutate_rnd_num == 99:
             num_bases = random.randrange(1,4)
-            for i in range(num_bases):
-              p53_genome = Insert_DNA(p53_genome)
+            p53_genome = Insert_DNA(p53_genome, num_bases)
           
           # מוטציה של הוספת בסיס עד שלושה בסיסים
           else:
             num_bases = random.randrange(1,4)
-            for i in range(num_bases):
-              p53_genome = Delete_DNA(p53_genome)
+            p53_genome = Delete_DNA(p53_genome, num_bases)
         
             # קריאה לפונקציות- שעתוק ותרגום הרצף.
           new_protein = RNA_prot(DNA_RNA_Cod(p53_genome))
