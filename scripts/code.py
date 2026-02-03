@@ -227,14 +227,15 @@ if BRCA_gene == "Y":
 
   # פלט
   print("For a female that does not have BRCA1,2 Mutation:")
-  print("The mutation that will change the P53 protein will take in average d% years." % avg)
+  print("The mutation that will change the P53 protein will take in average %.2f years." % avg)
 
 # אם האישה שאינה בעלת מוטציה ב- BRCA1,2 צריכות לקרות שתי מוטציות בחלבון.
 elif BRCA_gene == "N":
+  print("hey")
   # לולאה חיצונית- עובדת לפי מספר הדורות
   for h in range(num_gen):
     is_changed = True
-    
+    print("h= ",h )
     # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
     while (is_changed):
         
@@ -280,6 +281,6 @@ elif BRCA_gene == "N":
 
   # פלט
   print("For a female that doesn't not have BRCA1,2 Mutation:")
-  print("The mutation that will change the P53 protein will take in average d% years." % avg)
+  print("The mutation that will change the P53 protein will take in average %.2f years." % avg)
 
 
