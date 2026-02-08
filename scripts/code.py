@@ -183,7 +183,7 @@ if BRCA_gene == "Y":
   # לולאה חיצונית- עובדת לפי מספר הדורות
   for h in range(num_gen):
     is_changed = True
-    print("h= ",h )
+    
     # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
     while (is_changed):
         num_iteration = num_iteration + 1
@@ -222,7 +222,6 @@ if BRCA_gene == "Y":
     iteration_list.append(num_iteration)
     num_iteration = 0
   
-  print (iteration_list)
   # חישוב מספר אירועי שיכפול ה DNA בממוצע עד להתרחשות מוטציה יחידה בחלבון
   total = sum(iteration_list)
   avg = total / num_gen
@@ -233,11 +232,11 @@ if BRCA_gene == "Y":
 
 # אם האישה שאינה בעלת מוטציה ב- BRCA1,2 צריכות לקרות שתי מוטציות בחלבון.
 elif BRCA_gene == "N":
-  print("hey")
+
   # לולאה חיצונית- עובדת לפי מספר הדורות
   for h in range(num_gen):
     is_changed = True
-    print("h= ",h )
+    
     # לולאה פנימית- מדמה את תהליך התרגום של החלבון, בה מתרחשות המוטציות והבדיקה של כמות המוטציות בכל דור.
     while (is_changed):
         
